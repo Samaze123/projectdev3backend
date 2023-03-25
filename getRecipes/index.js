@@ -4,13 +4,11 @@ const config = require('../config.js');
 module.exports = async function (context, req) {
 	try {
 		const pool = await sql.connect(config);
-		// console.log('Connected to SQL database');
 
 		const result = await pool.request().query('SELECT * FROM recipes');
-		// console.log(result.recordset.length + ' rows returned');
 
 		context.res = {
-			// body: 'Connected to SQL database',
+			status: 200,
 			body: result.recordset,
 		};
 	} catch (err) {
