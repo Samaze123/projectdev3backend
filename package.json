@@ -3,7 +3,8 @@
 	"version": "1.0.0",
 	"description": "",
 	"scripts": {
-		"start": "nodemon --exec func start"
+		"start": "func start",
+		"dev": "nodemon --exec func start"
 	},
 	"dependencies": {
 		"azure-functions-core-tools": "^4.0.5085",
