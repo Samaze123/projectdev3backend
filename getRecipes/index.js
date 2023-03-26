@@ -39,7 +39,7 @@ module.exports = async function (context, req) {
 		console.log(err);
 		context.res = {
 			status: 500,
-			body: 'Failed to execute query',
+			body: 'API failed',
 		};
 	}
 };

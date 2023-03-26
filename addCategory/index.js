@@ -18,7 +18,7 @@ module.exports = async function (context, req) {
 		}
 
 		const pool = await sql.connect(config);
-		const labelCat = req.query.label;
+		const labelCat = req.body.label;
 
 		// Verify that label is not null and is a string
 		if (!labelCat || typeof labelCat !== 'string') {

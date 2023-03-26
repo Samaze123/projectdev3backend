@@ -18,13 +18,14 @@ module.exports = async function (context, req) {
 		}
 
 		const pool = await sql.connect(config);
-		const nameIng = req.query.name;
+
+		const nameIng = req.body.name;
 
 		// Verify that nameIng is not null and is a string
 		if (!nameIng || typeof nameIng !== 'string') {
 			context.res = {
 				status: 400,
-				body: 'name parameter is required and must be a string',
+				body: `name parameter is required and must be a string : ${nameIng}`,
 			};
 			return;
 		}
