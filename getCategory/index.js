@@ -18,15 +18,36 @@ module.exports = async function (context, req) {
 		}
 
 		const pool = await sql.connect(config);
+		const labelCat = req.query.label;
 
-		// Execute SQL query
-		const result = await pool.request().query('SELECT * FROM recipes');
+		// Verify that labelCat is not null
+		if (!labelCat) {
+			context.res = {
+				status: 400,
+				body: 'label parameter is required',
+			};
+			return;
+		}
 
-		// Verify that the query was successful
+		// Verify that labelCat is a string
+		if (typeof labelCat !== 'string') {
+			context.res = {
+				status: 400,
+				body: 'label parameter must be a string',
+			};
+			return;
+		}
+
+		const result = await pool
+			.request()
+			.input('label', sql.VarChar, labelCat)
+			.query('SELECT * FROM categories where labelCat=@label');
+
+		// Verify that result is not null
 		if (!result.recordset || result.recordset.length === 0) {
 			context.res = {
 				status: 404,
-				body: 'No records found',
+				body: `No category found with the specified name ${labelCat}`,
 			};
 			return;
 		}

@@ -20,7 +20,7 @@ module.exports = async function (context, req) {
 		const pool = await sql.connect(config);
 
 		// Execute SQL query
-		const result = await pool.request().query('SELECT * FROM recipes');
+		const result = await pool.request().query('SELECT * FROM categories');
 
 		// Verify that the query was successful
 		if (!result.recordset || result.recordset.length === 0) {

@@ -18,9 +18,17 @@ module.exports = async function (context, req) {
 		}
 
 		const pool = await sql.connect(config);
+		const passwordUser = req.query.password;
+		const mailUser = req.query.mail;
 
 		// Execute SQL query
-		const result = await pool.request().query('SELECT * FROM recipes');
+		const result = await pool
+			.request()
+			.input('password', sql.VarChar, passwordUser)
+			.input('mail', sql.VarChar, mailUser)
+			.query(
+				'SELECT * FROM users WHERE passwordUser=@password and mailUser=@mail'
+			);
 
 		// Verify that the query was successful
 		if (!result.recordset || result.recordset.length === 0) {
@@ -33,7 +41,7 @@ module.exports = async function (context, req) {
 
 		context.res = {
 			status: 200,
-			body: result.recordset,
+			body: 'Found',
 		};
 	} catch (err) {
 		console.log(err);
